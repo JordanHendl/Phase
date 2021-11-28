@@ -1,0 +1,1 @@
+add_library( pglobal SHARED Global.cpp )
