@@ -14,10 +14,10 @@
 #include "Phase.h"
 #include "Global/Global/Global.h"
 #include "Structures/Structures.h"
-#include <Impulse/vk/Conversion.h>
-#include <Impulse/vk/Vulkan.h>
+#include <Catalyst/vk/Conversion.h>
+#include <Catalyst/vk/Vulkan.h>
 
-using API = imp::ivk::Vulkan ;
+using API = cata::ivk::Vulkan ;
 
 namespace ph
 {

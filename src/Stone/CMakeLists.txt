@@ -1,5 +1,5 @@
-find_package( EXImpulse REQUIRED )
-find_package( Impulse   REQUIRED )
+find_package( CatalystEX REQUIRED )
+find_package( Catalyst   REQUIRED )
 
 set( Stone_Sources 
      Stone.cpp
@@ -8,8 +8,8 @@ set( Stone_Sources
 set( Stone_Libraries
      pglobal
      pstructures 
-     imp::impvulkan 
-     eximp::image_loader
+     cata::vulkan 
+     excata::image_loader
    )
 
 set( Stone_Dependencies

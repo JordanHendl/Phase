@@ -1,5 +1,5 @@
-find_package( EXImpulse REQUIRED )
-find_package( Impulse   REQUIRED )
+find_package( CatalystEX REQUIRED )
+find_package( Catalyst   REQUIRED )
 
 set( Sea_Sources 
      Sea.cpp
@@ -9,8 +9,8 @@ set( Sea_Libraries
      timer
      pglobal
      pstructures 
-     imp::impvulkan 
-     eximp::image_loader
+     cata::vulkan 
+     excata::image_loader
    )
 
 set( Sea_Dependencies

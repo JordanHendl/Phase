@@ -27,32 +27,32 @@ namespace ph
     this->m_proj = camera.m_proj ;
   }
 
-  auto Camera::setView( imp::ex::Mat4& matrix ) -> void
+  auto Camera::setView( cata::ex::Mat4& matrix ) -> void
   {
     this->m_view = matrix ;
   }
 
-  auto Camera::setProjection( imp::ex::Mat4& matrix ) -> void
+  auto Camera::setProjection( cata::ex::Mat4& matrix ) -> void
   {
     this->m_proj = matrix ;
   }
   
-  auto Camera::setPosition( imp::ex::Vec3& pos ) -> void
+  auto Camera::setPosition( cata::ex::Vec3& pos ) -> void
   {
     this->m_pos = pos ;
   }
   
-  auto Camera::view() const -> const imp::ex::Mat4&
+  auto Camera::view() const -> const cata::ex::Mat4&
   {
     return this->m_view ;
   }
 
-  auto Camera::proj() const -> const imp::ex::Mat4&
+  auto Camera::proj() const -> const cata::ex::Mat4&
   {
     return this->m_proj ;
   }
   
-  auto Camera::position() const -> const imp::ex::Vec3&
+  auto Camera::position() const -> const cata::ex::Vec3&
   {
     return this->m_pos ;
   }

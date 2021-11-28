@@ -15,13 +15,13 @@
 #include "Global/Global/Global.h"
 #include "Structures/Structures.h"
 #include <sky_draw.h>
-#include <Impulse/structures/Structures.h>
-#include <EXImpulse/IO/Image.h>
+#include <Catalyst/structures/Structures.h>
+#include <CatalystEX/IO/Image.h>
 
 namespace ph
 {
-  using namespace imp     ;
-  using namespace imp::ex ;
+  using namespace cata     ;
+  using namespace cata::ex ;
   
 Vec4 skybox_vertices[] = 
 {
@@ -79,18 +79,18 @@ Vec4 skybox_vertices[] =
   {
     using SkyBoxVertices = VertexArray<API, Vec4> ;
     
-    imp::RenderPass<API>            pass            ;
-    imp::Pipeline<API>              skybox_pipeline ;
-    imp::Texture<API>               skybox          ;
-    imp::UniformArray<API, SkyView> viewproj        ;
-    imp::Commands<API>*             cmds            ;
+    cata::RenderPass<API>            pass            ;
+    cata::Pipeline<API>              skybox_pipeline ;
+    cata::Texture<API>               skybox          ;
+    cata::UniformArray<API, SkyView> viewproj        ;
+    cata::Commands<API>*             cmds            ;
     SkyBoxVertices                  vertices        ;
     SkyConfig                       cfg             ;
     
-    SkyData( imp::Commands<API>& cmds, const SkyConfig& config ) ;
+    SkyData( cata::Commands<API>& cmds, const SkyConfig& config ) ;
   };
   
-  SkyData::SkyData( imp::Commands<API>& cmds, const SkyConfig& config )
+  SkyData::SkyData( cata::Commands<API>& cmds, const SkyConfig& config )
   {
     auto pipe_info  = PipelineInfo()   ;
     auto rp_info    = RenderPassInfo() ;
@@ -125,7 +125,7 @@ Vec4 skybox_vertices[] =
     this->vertices        = VertexArray<API, Vec4    >( 0, 36, true           ) ;
     this->viewproj        = UniformArray<API, SkyView>( 0, 1, true            ) ;
     
-    auto back   = imp::ex::loadRGBA8( g_data().skybox_images[ 0 ].c_str() ) ;
+    auto back   = cata::ex::loadRGBA8( g_data().skybox_images[ 0 ].c_str() ) ;
     tex_info.setDimensions( back.width, back.height ) ;
     this->skybox = Texture<API>( 0, tex_info ) ;
     
@@ -139,7 +139,7 @@ Vec4 skybox_vertices[] =
     for( unsigned index = 0; index < 6; index++ )
     {
       auto layer      = this->skybox.layer( index ) ;
-      auto loaded_img = imp::ex::loadRGBA8( g_data().skybox_images[ index ].c_str() ) ;
+      auto loaded_img = cata::ex::loadRGBA8( g_data().skybox_images[ index ].c_str() ) ;
       tmp_cmds.copy( loaded_img.pixels.data(), wb ) ;
       tmp_cmds.copy( wb, layer ) ;
       tmp_cmds.submit() ;
@@ -154,12 +154,12 @@ Vec4 skybox_vertices[] =
     this->skybox_pipeline.bind( "viewproj", this->viewproj ) ;
   }
   
-  Sky::Sky( imp::Commands<API>& cmds, const SkyConfig& config )
+  Sky::Sky( cata::Commands<API>& cmds, const SkyConfig& config )
   {
     this->data = new SkyData( cmds, config ) ;
   }
 
-  Sky::Sky( imp::Commands<API>& cmds )
+  Sky::Sky( cata::Commands<API>& cmds )
   { 
     auto config = SkyConfig() ;
     this->data = new SkyData( cmds, config ) ;
@@ -175,7 +175,7 @@ Vec4 skybox_vertices[] =
     data->cfg = config ;
   }
 
-  auto Sky::pass() -> const imp::RenderPass<API, imp::DefaultAllocator<API>>&
+  auto Sky::pass() -> const cata::RenderPass<API, cata::DefaultAllocator<API>>&
   {  
     return data->pass ;
   }

@@ -1,27 +1,27 @@
 #include <Phase.h>
-#include <EXImpulse/Math/Math.h>
-#include <EXImpulse/Camera/Camera.h>
+#include <CatalystEX/Math/Math.h>
+#include <CatalystEX/Camera/Camera.h>
 #include "Structures/Structures.h"
-#include <Impulse/vk/Vulkan.h>
-#include <Impulse/structures/Structures.h>
-#include <Impulse/window/Window.h>
-#include <Impulse/window/Event.h>
+#include <Catalyst/vk/Vulkan.h>
+#include <Catalyst/structures/Structures.h>
+#include <Catalyst/window/Window.h>
+#include <Catalyst/window/Event.h>
 
 using namespace ph  ;
-using namespace imp ;
+using namespace cata ;
 using API = ivk::Vulkan ;
 
 static bool running = true ;
 
-static void eventCallback( const imp::Event& event )
+static void eventCallback( const cata::Event& event )
 {
-  if( event.type() == imp::Event::Type::WindowExit ) running = false ;
-  if( event.key() == imp::Key::ESC ) running = false ;
+  if( event.type() == cata::Event::Type::WindowExit ) running = false ;
+  if( event.key() == cata::Key::ESC ) running = false ;
 }
 
 int main()
 {
-  // Initialize Impulse stuff
+  // Initialize Catalyst stuff
   API::addValidationLayer( "VK_LAYER_KHRONOS_validation"         ) ;
   API::addValidationLayer( "VK_LAYER_LUNARG_standard_validation" ) ;
   API::initialize() ;
@@ -33,15 +33,15 @@ int main()
   window.setCaptureMouse( true ) ;
   
   // Register events
-  imp::EventManager manager ;
+  cata::EventManager manager ;
   manager.enroll( &eventCallback, "Quit Callback" ) ;
   
-  auto graphics_camera = imp::ex::Camera() ;
+  auto graphics_camera = cata::ex::Camera() ;
   auto sea_camera      = ph::Camera()      ;
   
   Phase::initalize( "config_path.json", sea_camera ) ;  
-  auto proj = imp::ex::perspective( imp::ex::radians( 90.0f ), ( 1280.f / 1024.f ), 0.1f, 10000.f ) ;
-  auto view = imp::ex::Mat4( 1.0f ) ;
+  auto proj = cata::ex::perspective( cata::ex::radians( 90.0f ), ( 1280.f / 1024.f ), 0.1f, 10000.f ) ;
+  auto view = cata::ex::Mat4( 1.0f ) ;
   
   sea_camera.setProjection( proj ) ;
   sea_camera.setView      ( view ) ;
@@ -53,7 +53,7 @@ int main()
   
   cmd.begin() ;
   sea.draw() ;
-  cmd.blit( sea.pass(), swapchain, imp::Filter::Linear ) ;
+  cmd.blit( sea.pass(), swapchain, cata::Filter::Linear ) ;
   
   while( running )
   {
@@ -70,7 +70,7 @@ int main()
     {
       cmd.begin() ;
       sea.draw() ;
-      cmd.blit( sea.pass(), swapchain, imp::Filter::Linear ) ;
+      cmd.blit( sea.pass(), swapchain, cata::Filter::Linear ) ;
     }
     
     window.poll() ;

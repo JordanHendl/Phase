@@ -1,5 +1,5 @@
-find_package( EXImpulse REQUIRED )
-find_package( Impulse   REQUIRED )
+find_package( CatalystEX REQUIRED )
+find_package( Catalyst   REQUIRED )
 
 set( Sky_Sources 
      Sky.cpp
@@ -8,8 +8,8 @@ set( Sky_Sources
 set( Sky_Libraries
      pglobal
      pstructures 
-     imp::impvulkan 
-     eximp::image_loader
+     cata::vulkan 
+     excata::image_loader
    )
 
 set( Sky_Dependencies

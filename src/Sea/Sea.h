@@ -1,6 +1,6 @@
 #pragma once
-#include <Impulse/vk/Vulkan.h>
-#include <EXImpulse/Math/Math.h>
+#include <Catalyst/vk/Vulkan.h>
+#include <CatalystEX/Math/Math.h>
 
 namespace ph
 {
@@ -36,16 +36,16 @@ namespace ph
   };
   
   class Camera ;
-  using API = imp::ivk::Vulkan ;
+  using API = cata::ivk::Vulkan ;
   class Sea
   {
     public:
-      Sea( imp::Commands<API>& cmds, const SeaConfig& config ) ;
-      Sea( imp::Commands<API>& cmds ) ;
+      Sea( cata::Commands<API>& cmds, const SeaConfig& config ) ;
+      Sea( cata::Commands<API>& cmds ) ;
       ~Sea() ;
       auto updateConfig( const ph::SeaConfig& config ) -> void ;
-      auto pass() -> const imp::RenderPass<API, imp::DefaultAllocator<API>>& ;
-      auto commands() -> imp::Commands<API>& ;
+      auto pass() -> const cata::RenderPass<API, cata::DefaultAllocator<API>>& ;
+      auto commands() -> cata::Commands<API>& ;
       auto update() -> void ;
       auto draw() -> void ;
     private:

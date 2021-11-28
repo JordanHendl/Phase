@@ -7,8 +7,8 @@ add_subdirectory( Timer      )
 add_subdirectory( Sea        ) 
 add_subdirectory( Tests      ) 
 
-find_package( EXImpulse REQUIRED )
-find_package( Impulse   REQUIRED )
+find_package( CatalystEX REQUIRED )
+find_package( Catalyst   REQUIRED )
 
 set( Phase_Sources 
      Phase.cpp

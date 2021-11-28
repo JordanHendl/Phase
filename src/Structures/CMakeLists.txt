@@ -1,7 +1,7 @@
-find_package( EXImpulse REQUIRED )
-find_package( Impulse REQUIRED   )
+find_package( CatalystEX REQUIRED )
+find_package( Catalyst REQUIRED   )
 
 add_library( pstructures STATIC Structures.cpp )
-target_link_libraries( pstructures imp::impvulkan eximp::fft )
+target_link_libraries( pstructures cata::vulkan excata::fft )
 
 

@@ -12,7 +12,7 @@
  */
 
 #pragma once
-#include <EXImpulse/Math/Math.h>
+#include <CatalystEX/Math/Math.h>
 
 namespace ph
 {
@@ -22,16 +22,16 @@ namespace ph
       Camera() ;
       Camera( const Camera& camera ) ;
       ~Camera() ;
-      auto setView( imp::ex::Mat4& matrix ) -> void ;
-      auto setProjection( imp::ex::Mat4& matrix ) -> void ;
-      auto setPosition( imp::ex::Vec3& pos ) -> void ;
-      auto view() const -> const imp::ex::Mat4& ;
-      auto proj() const -> const imp::ex::Mat4& ;
-      auto position() const -> const imp::ex::Vec3& ;
+      auto setView( cata::ex::Mat4& matrix ) -> void ;
+      auto setProjection( cata::ex::Mat4& matrix ) -> void ;
+      auto setPosition( cata::ex::Vec3& pos ) -> void ;
+      auto view() const -> const cata::ex::Mat4& ;
+      auto proj() const -> const cata::ex::Mat4& ;
+      auto position() const -> const cata::ex::Vec3& ;
     private:
-      imp::ex::Mat4 m_view ;
-      imp::ex::Mat4 m_proj ;
-      imp::ex::Vec3 m_pos  ;
+      cata::ex::Mat4 m_view ;
+      cata::ex::Mat4 m_proj ;
+      cata::ex::Vec3 m_pos  ;
   };
 }
 

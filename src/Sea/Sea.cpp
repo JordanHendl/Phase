@@ -19,54 +19,54 @@
 #include <sea_calc_slope.h>
 #include <Timer/Timer.h>
 #include "Structures/Structures.h"
-#include <Impulse/vk/Vulkan.h>
-#include <Impulse/structures/Structures.h>
-#include <EXImpulse/Algorithm/FFT.h>
-#include <EXImpulse/Math/Math.h>
+#include <Catalyst/vk/Vulkan.h>
+#include <Catalyst/structures/Structures.h>
+#include <CatalystEX/Algorithm/FFT.h>
+#include <CatalystEX/Math/Math.h>
 #include <iostream>
 #include <random>
 #include <cmath>
-using API = imp::ivk::Vulkan ;
+using API = cata::ivk::Vulkan ;
 
-using namespace imp ;
+using namespace cata ;
 
 namespace ph
 {
   struct ViewProj
   {
-    imp::ex::Mat4 vp  ;
-    imp::ex::Vec3 pos ;
+    cata::ex::Mat4 vp  ;
+    cata::ex::Vec3 pos ;
   };
 
   struct SeaVertex
   {
-    imp::ex::Vec4 pos    ;
-    imp::ex::Vec4 normal ;
-    imp::ex::Vec2 uv     ;
+    cata::ex::Vec4 pos    ;
+    cata::ex::Vec4 normal ;
+    cata::ex::Vec2 uv     ;
   };
   
   struct SeaData
   {
-    imp::ex::FFT*                      fft         ;
-    imp::RenderPass<API>               pass        ;
-    imp::Commands<API>                 fft_cmds    ;
-    imp::Commands<API>*                cmd         ;
-    imp::Pipeline<API>                 draw_pipe   ;
-    imp::Pipeline<API>                 proc_pipe   ;
-    imp::Pipeline<API>                 sign_correct;
-    imp::Pipeline<API>                 slope_calc  ;
-    imp::VertexArray<API, SeaVertex>   vertices    ;
-    imp::IndexArray<API, unsigned>     indices     ;
-    imp::UniformArray<API, ViewProj>   viewproj    ;
-    imp::UniformArray<API, SeaConfig>  d_cfg       ;
-    imp::Array<API, imp::ex::Vec3>     viewpos     ;
-    imp::Array<API, imp::ex::Complex>  fft_buffer  ;
-    imp::Array<API, imp::ex::Complex>  time_buffer ;
-    imp::Array<API, ex::Vec2        >  slopes      ;
-    imp::Array<API, float>             h_offsets   ;
-    imp::Array<API, float>             v_offsets   ;
-    imp::Texture<API>                  heightmap   ;
-    imp::Texture<API>                  normalmap   ;
+    cata::ex::FFT*                      fft         ;
+    cata::RenderPass<API>               pass        ;
+    cata::Commands<API>                 fft_cmds    ;
+    cata::Commands<API>*                cmd         ;
+    cata::Pipeline<API>                 draw_pipe   ;
+    cata::Pipeline<API>                 proc_pipe   ;
+    cata::Pipeline<API>                 sign_correct;
+    cata::Pipeline<API>                 slope_calc  ;
+    cata::VertexArray<API, SeaVertex>   vertices    ;
+    cata::IndexArray<API, unsigned>     indices     ;
+    cata::UniformArray<API, ViewProj>   viewproj    ;
+    cata::UniformArray<API, SeaConfig>  d_cfg       ;
+    cata::Array<API, cata::ex::Vec3>     viewpos     ;
+    cata::Array<API, cata::ex::Complex>  fft_buffer  ;
+    cata::Array<API, cata::ex::Complex>  time_buffer ;
+    cata::Array<API, ex::Vec2        >  slopes      ;
+    cata::Array<API, float>             h_offsets   ;
+    cata::Array<API, float>             v_offsets   ;
+    cata::Texture<API>                  heightmap   ;
+    cata::Texture<API>                  normalmap   ;
     Camera*                            cameras     ;
     std::vector<SeaVertex>             h_vertices  ;
     std::vector<unsigned>              h_indices   ;
@@ -75,7 +75,7 @@ namespace ph
     
     bool initialized = false ;
     
-    SeaData( imp::Commands<API>& cmds, const SeaConfig& config ) ;
+    SeaData( cata::Commands<API>& cmds, const SeaConfig& config ) ;
     
     auto initializeBuffers() -> void ;
     
@@ -83,9 +83,9 @@ namespace ph
     
     auto triangulate() -> void ;
     
-    auto generateH0() -> std::vector<imp::ex::Complex> ;
+    auto generateH0() -> std::vector<cata::ex::Complex> ;
     
-    auto randomGaussian() -> std::vector<imp::ex::Complex> ;
+    auto randomGaussian() -> std::vector<cata::ex::Complex> ;
     
     auto updateFFT() -> void ;
     
@@ -100,7 +100,7 @@ namespace ph
     auto phillips( float Kx, float Ky, float Vdir, float V, float A, float dir_depend ) -> float ;
   };
   
-  SeaData::SeaData( imp::Commands<API>& cmds, const SeaConfig& config )
+  SeaData::SeaData( cata::Commands<API>& cmds, const SeaConfig& config )
   {
     auto pass_info     = RenderPassInfo() ;
     auto subpass       = Subpass       () ;
@@ -149,7 +149,7 @@ namespace ph
     fft_config.height    = this->cfg.height ;
     fft_config.normalize = false       ;
 
-    this->fft = new imp::ex::FFT( cmds, fft_config ) ;
+    this->fft = new cata::ex::FFT( cmds, fft_config ) ;
 
     this->updateFFT() ;
 
@@ -259,7 +259,7 @@ namespace ph
     auto specW = ( this->cfg.width  + 4 ) ;
     auto specH = ( this->cfg.height + 1 ) ;
     const auto size = specW * specH ;
-    auto wb         = Array   <API , imp::ex::Complex>( 0, size, true ) ;
+    auto wb         = Array   <API , cata::ex::Complex>( 0, size, true ) ;
     auto randoms    = this->generateH0() ;
     
     this->fft_cmds.begin() ;
@@ -302,8 +302,8 @@ namespace ph
     auto indices  = IndexArray<API , unsigned        >( 0, this->h_indices .size() ) ;
     
     //FFT buffers.
-    auto fft   = Array<API, imp::ex::Complex>( 0, spectrum_size ) ;
-    auto fft_t = Array<API, imp::ex::Complex>( 0, size ) ;
+    auto fft   = Array<API, cata::ex::Complex>( 0, spectrum_size ) ;
+    auto fft_t = Array<API, cata::ex::Complex>( 0, size ) ;
     auto h_off = Array<API, float           >( 0, size ) ;
     auto v_off = Array<API, float           >( 0, size ) ;
     
@@ -349,7 +349,7 @@ namespace ph
         vertex.pos.w() = 1.0f                            ;
         vertex.uv.x() = static_cast<float>( ix ) / static_cast<float>( this->cfg.width  ) ;
         vertex.uv.y() = static_cast<float>( iy ) / static_cast<float>( this->cfg.height ) ;
-        vertex.normal = imp::ex::Vec4( 0, -1, 0, 0 ) ;
+        vertex.normal = cata::ex::Vec4( 0, -1, 0, 0 ) ;
       }
     }
   }
@@ -374,12 +374,12 @@ namespace ph
     }
   }
 
-  Sea::Sea( imp::Commands<API>& cmds, const SeaConfig& config )
+  Sea::Sea( cata::Commands<API>& cmds, const SeaConfig& config )
   {
     this->ocean_data = new SeaData( cmds, config ) ;
   }
   
-  Sea::Sea( imp::Commands<API>& cmds )
+  Sea::Sea( cata::Commands<API>& cmds )
   {
     auto config = SeaConfig() ;
     this->ocean_data = new SeaData( cmds, config ) ;
@@ -400,12 +400,12 @@ namespace ph
    //TODO
   }
 
-  auto Sea::pass() -> const imp::RenderPass<imp::ivk::Vulkan, imp::DefaultAllocator<imp::ivk::Vulkan>>&
+  auto Sea::pass() -> const cata::RenderPass<cata::ivk::Vulkan, cata::DefaultAllocator<cata::ivk::Vulkan>>&
   {
     return data().pass ;
   }
   
-  auto Sea::commands() -> imp::Commands<imp::ivk::Vulkan>&
+  auto Sea::commands() -> cata::Commands<cata::ivk::Vulkan>&
   {
     return *data().cmd ;
   }

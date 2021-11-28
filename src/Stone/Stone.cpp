@@ -2,19 +2,19 @@
 #include "Global/Global/Global.h"
 #include "Structures/Structures.h"
 #include <stone_draw.h>
-#include <Impulse/structures/Structures.h>
-#include <EXImpulse/IO/Image.h>
+#include <Catalyst/structures/Structures.h>
+#include <CatalystEX/IO/Image.h>
 #include <fstream>
 #include <iostream>
 
 namespace ph
 {
-  using namespace imp ;
+  using namespace cata ;
   
   struct SViewProj
   {
-    imp::ex::Mat4 vp  ;
-    imp::ex::Vec3 pos ;
+    cata::ex::Mat4 vp  ;
+    cata::ex::Vec3 pos ;
   };
   
   struct StoneVertex
@@ -47,7 +47,7 @@ namespace ph
     std::vector<unsigned   > h_indices  ;
     std::vector<StoneVertex> h_vertices ;
 
-    StoneData( imp::Commands<API>& cmds, const StoneConfig& config ) ;
+    StoneData( cata::Commands<API>& cmds, const StoneConfig& config ) ;
     
     auto generateVertices() -> void ;
     
@@ -97,11 +97,11 @@ namespace ph
     }
   }
     
-  StoneData::StoneData( imp::Commands<API>& cmds, const StoneConfig& config )
+  StoneData::StoneData( cata::Commands<API>& cmds, const StoneConfig& config )
   {
     auto start_location = g_data().stone_base_path + std::string( "/x0_y0.png" ) ;
     
-    auto loaded = imp::ex::loadR32F( start_location.c_str() ) ;
+    auto loaded = cata::ex::loadR32F( start_location.c_str() ) ;
     
     auto rp_info    = RenderPassInfo() ;
     auto subpass    = Subpass()        ;
@@ -165,12 +165,12 @@ namespace ph
     this->draw.bind( "viewproj" , this->d_viewproj      ) ;
   }
   
-  Stone::Stone( imp::Commands<API>& cmds, const StoneConfig& config )
+  Stone::Stone( cata::Commands<API>& cmds, const StoneConfig& config )
   {
     this->data = new StoneData( cmds, config ) ;
   }
 
-  Stone::Stone( imp::Commands<API>& cmds )
+  Stone::Stone( cata::Commands<API>& cmds )
   { 
     auto config = StoneConfig() ;
     this->data = new StoneData( cmds, config ) ;
@@ -185,7 +185,7 @@ namespace ph
   {  
   }
 
-  auto Stone::pass() -> const imp::RenderPass<API, imp::DefaultAllocator<API>>&
+  auto Stone::pass() -> const cata::RenderPass<API, cata::DefaultAllocator<API>>&
   {  
     return data->pass ;
   }

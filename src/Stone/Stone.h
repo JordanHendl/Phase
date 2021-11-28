@@ -1,6 +1,6 @@
 #pragma once
-#include <Impulse/vk/Vulkan.h>
-#include <EXImpulse/Math/Math.h>
+#include <Catalyst/vk/Vulkan.h>
+#include <CatalystEX/Math/Math.h>
 
 namespace ph
 {
@@ -17,15 +17,15 @@ namespace ph
     }
   };
   
-  using API = imp::ivk::Vulkan ;
+  using API = cata::ivk::Vulkan ;
   class Stone
   {
     public:
-      Stone( imp::Commands<API>& cmds, const StoneConfig& config ) ;
-      Stone( imp::Commands<API>& cmds ) ;
+      Stone( cata::Commands<API>& cmds, const StoneConfig& config ) ;
+      Stone( cata::Commands<API>& cmds ) ;
       ~Stone() ;
       auto updateConfig( const ph::StoneConfig& config ) -> void ;
-      auto pass() -> const imp::RenderPass<API, imp::DefaultAllocator<API>>& ;
+      auto pass() -> const cata::RenderPass<API, cata::DefaultAllocator<API>>& ;
       auto update() -> void ;
       auto draw() -> void ;
     private:

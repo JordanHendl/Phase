@@ -1,6 +1,6 @@
 #pragma once
-#include <Impulse/vk/Vulkan.h>
-#include <EXImpulse/Math/Math.h>
+#include <Catalyst/vk/Vulkan.h>
+#include <CatalystEX/Math/Math.h>
 
 namespace ph
 {
@@ -17,15 +17,15 @@ namespace ph
     }
   };
   
-  using API = imp::ivk::Vulkan ;
+  using API = cata::ivk::Vulkan ;
   class Sky
   {
     public:
-      Sky( imp::Commands<API>& cmds, const SkyConfig& config ) ;
-      Sky( imp::Commands<API>& cmds ) ;
+      Sky( cata::Commands<API>& cmds, const SkyConfig& config ) ;
+      Sky( cata::Commands<API>& cmds ) ;
       ~Sky() ;
       auto updateConfig( const ph::SkyConfig& config ) -> void ;
-      auto pass() -> const imp::RenderPass<API, imp::DefaultAllocator<API>>& ;
+      auto pass() -> const cata::RenderPass<API, cata::DefaultAllocator<API>>& ;
       auto update() -> void ;
       auto draw() -> void ;
     private:

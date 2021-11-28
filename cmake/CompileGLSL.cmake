@@ -35,13 +35,13 @@ FUNCTION( GLSL_COMPILE )
     IF( TARGETS )
       IF( COMPILE_GLSL )
         # Check if we can build .imp files with impReflection.
-        FIND_PROGRAM( HAS_IMPREFLECTION "impReflection" )
+        FIND_PROGRAM( HAS_CATAREFLECTION "cataReflection" )
 
         # Build .imp files using impReflection.
-        IF( HAS_IMPREFLECTION )
+        IF( HAS_CATAREFLECTION )
           ADD_CUSTOM_COMMAND(
             OUTPUT ${SHADER_DIR}/${NAME}.h
-            COMMAND impReflection -v -h ${TARGETS} -o ${SHADER_DIR}/${NAME}
+            COMMAND cataReflection -v -h ${TARGETS} -o ${SHADER_DIR}/${NAME}
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
             DEPENDS ${TARGETS}
           )
@@ -51,7 +51,7 @@ FUNCTION( GLSL_COMPILE )
             DEPENDS ${SHADER_DIR}/${NAME}.h
           )
         ELSE()
-          MESSAGE( "Tried to build .imp file using ${TARGETS}, but impReflection was not found." )
+          MESSAGE( "Tried to build .cata file using ${TARGETS}, but cataReflection was not found." )
         ENDIF()
       ENDIF()
     ENDIF()
